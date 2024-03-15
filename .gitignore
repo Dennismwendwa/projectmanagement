@@ -1,2 +1,4 @@
 ../venv
 *.pyc
+projectmanagement/.env
+db.sqlite3
