@@ -1,0 +1,36 @@
+<div>
+    <div>
+        {%for message in messages %}
+        <h4>{{message}}</h4>
+        {%endfor%}
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+    <input name="first_name" type="text" placeholder="First name" required >
+        </div>
+        <div>
+    <input name="last_name" type="text" placeholder="Last name" required >
+        </div>
+        <div>
+    <input name="email" type="email" placeholder="Email" required >
+        </div>
+        <div>
+    <input name="username" type="text" placeholder="username" required >
+        </div>
+        <div>
+    <input name="password1" type="password" placeholder="Password" required >
+        </div>
+        <div>
+    <input name="password2" type="password" placeholder="Cornfirm password" required >
+        </div>
+        <div>
+    <input name="role" type="text" placeholder="role">
+        </div>
+        <div>
+    <button type"submit" >Submit</button>
+        </div>
+
+    </form>
+
+</div>
