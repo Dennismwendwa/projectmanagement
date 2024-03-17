@@ -15,7 +15,7 @@ def register(request):
         password2 = request.POST["password2"]
         role = request.POST.get("role", "")
 
-        if password1 == password2:
+        if password1 == password2 and len(password1) > 7:
             if User.objects.filter(username=username).exists():
                 messages.warning(request, f"Username already taken")
                 return redirect("accounts:register")
@@ -29,14 +29,18 @@ def register(request):
                                                 email=email,
                                                 password=password1,)
                 if role:
-                    user.role = role
-                user.save()
+                    try:
+                        role = role.capitalize()
+                        group = Group.objects.get(name=role)
+                    except Group.DoesNotExist:
+                        group = Group.objects.create(name=role)
+                    group.user_set.add(user)
 
                 status = login_helper(request, username, password1)
                 if status == "success":
                     return redirect("projects:home")
 
-        elif len(password1) < 9:
+        elif len(password1) < 8:
             messages.warning(request, f"Password MUST have minimum of 8 characters!")
             return redirect("accounts:register")
         else:
@@ -77,4 +81,4 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect("projects:public")
+    return redirect("projects:home")

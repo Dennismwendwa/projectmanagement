@@ -29,20 +29,18 @@
 
 <body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
 
-  <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="container-fluid d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
 
-        <h1>Append</h1>
+        <h1>BuildMind</h1>
         <span>.</span>
       </a>
 
-      <!-- Nav Menu -->
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html#hero" class="active">Home</a></li>
+        <li><a href="{% url 'projects:home' %}" class="active">Home</a></li>
           <li><a href="index.html#about">About</a></li>
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#portfolio">Portfolio</a></li>
@@ -66,19 +64,25 @@
             </ul>
           </li>
           <li><a href="index.html#contact">Contact</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {%else%}
+          <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          <li><a href="{% url 'accounts:register' %}">Register</a></li>
+          {%endif%}
+          
         </ul>
 
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav><!-- End Nav Menu -->
+      </nav>
 
       <a class="btn-getstarted" href="index.html#about">Get Started</a>
 
     </div>
-  </header><!-- End Header -->
+  </header>
 
   <main id="main">
 
-    <!-- Hero Section - Home Page -->
     <section id="hero" class="hero">
 
       <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
@@ -106,7 +110,6 @@
       </div>
     </section>
 
-    <!-- Clients Section - Home Page -->
     <section id="clients" class="clients">
 
       <div class="container-fluid" data-aos="fade-up">
@@ -115,35 +118,34 @@
 
           <div class="col-xl-2 col-md-3 col-6 client-logo">
             <img src="assets/img/clients/client-1.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          </div>
 
           <div class="col-xl-2 col-md-3 col-6 client-logo">
             <img src="assets/img/clients/client-2.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          </div>
 
           <div class="col-xl-2 col-md-3 col-6 client-logo">
             <img src="assets/img/clients/client-3.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          </div>
 
           <div class="col-xl-2 col-md-3 col-6 client-logo">
             <img src="assets/img/clients/client-4.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          </div>
 
           <div class="col-xl-2 col-md-3 col-6 client-logo">
             <img src="assets/img/clients/client-5.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          </div>
 
           <div class="col-xl-2 col-md-3 col-6 client-logo">
             <img src="assets/img/clients/client-6.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
+          </div>
 
         </div>
 
       </div>
 
-    </section><!-- End Clients Section -->
+    </section>
 
-    <!-- About Section - Home Page -->
     <section id="about" class="about">
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -165,7 +167,7 @@
                   <h3>Eius provident</h3>
                   <p>Magni repellendus vel ullam hic officia accusantium ipsa dolor omnis dolor voluptatem</p>
                 </div>
-              </div> <!-- End Icon Box -->
+              </div>
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="icon-box">
@@ -173,7 +175,7 @@
                   <h3>Rerum aperiam</h3>
                   <p>Autem saepe animi et aut aspernatur culpa facere. Rerum saepe rerum voluptates quia</p>
                 </div>
-              </div> <!-- End Icon Box -->
+              </div>
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="icon-box">
@@ -181,7 +183,7 @@
                   <h3>Veniam omnis</h3>
                   <p>Omnis perferendis molestias culpa sed. Recusandae quas possimus. Quod consequatur corrupti</p>
                 </div>
-              </div> <!-- End Icon Box -->
+              </div>
 
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
                 <div class="icon-box">
@@ -189,7 +191,7 @@
                   <h3>Delares sapiente</h3>
                   <p>Sint et dolor voluptas minus possimus nostrum. Reiciendis commodi eligendi omnis quideme lorenda</p>
                 </div>
-              </div> <!-- End Icon Box -->
+              </div>
 
             </div>
           </div>
@@ -197,9 +199,8 @@
         </div>
       </div>
 
-    </section><!-- End About Section -->
+    </section>
 
-    <!-- Stats Section - Home Page -->
     <section id="stats" class="stats">
 
       <img src="assets/img/stats-bg.jpg" alt="" data-aos="fade-in">
