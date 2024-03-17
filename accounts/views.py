@@ -14,6 +14,7 @@ def register(request):
         password1 = request.POST["password1"]
         password2 = request.POST["password2"]
         role = request.POST.get("role", "")
+        is_administrator = request.POST.get("is_administrator", True)
 
         if password1 == password2 and len(password1) > 7:
             if User.objects.filter(username=username).exists():
@@ -28,6 +29,9 @@ def register(request):
                                                 last_name=last_name,
                                                 email=email,
                                                 password=password1,)
+                if is_administrator:
+                    user.is_administrator = True
+                    user.save()
                 if role:
                     try:
                         role = role.capitalize()
