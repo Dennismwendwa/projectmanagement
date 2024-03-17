@@ -2,12 +2,6 @@ from .settings import *
 DEBUG = True
 SECRET_KEY = 'django-insecure-dgu5*^9cexga$udi7@__0lwjbhm3lrkm7@c$320l!!)drw*onu'
 
-DATABASES = {
-        'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
 # AWS Bucket settings
 #AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 #AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
