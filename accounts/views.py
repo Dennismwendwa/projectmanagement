@@ -99,3 +99,6 @@ def contact(request):
         else:
             print(form.errors)
     return render(request, "accounts/contact.html")
+
+def aboutus(request):
+    return render(request, "accounts/aboutus.html")

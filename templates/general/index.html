@@ -32,16 +32,16 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="container-fluid d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+      <a href="{% url 'projects:home' %}" class="logo d-flex align-items-center me-auto me-xl-0">
 
         <h1>BuildMind</h1>
-        <span>.</span>
+        <span>. BuildMind</span>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
         <li><a href="{% url 'projects:home' %}" class="active">Home</a></li>
-          <li><a href="index.html#about">About</a></li>
+          <li><a href="{% url 'accounts:aboutus' %}">About</a></li>
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#portfolio">Portfolio</a></li>
           <li><a href="index.html#team">Team</a></li>
@@ -63,7 +63,7 @@
               <li><a href="#">Dropdown 4</a></li>
             </ul>
           </li>
-          <li><a href="index.html#contact">Contact</a></li>
+          <li class="text-success"><a href="{% url 'accounts:contact' %}">Contact</a></li>
           {% if user.is_authenticated %}
           <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
           {%else%}
