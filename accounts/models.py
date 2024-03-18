@@ -32,3 +32,19 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"Profile of {self.user.username}. Created at {self.date_joined}"
+    
+
+class Contact(models.Model):
+    full_name = models.CharField(max_length=150)
+    email = models.EmailField()
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "contact"
+        verbose_name_plural = "contacts"
+        ordering = ("-date",)
+
+    def __str__(self):
+        return f"{self.full_name} contacted us at {self.date}"

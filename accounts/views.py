@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import auth, Group
 from .models import User
+from .forms import ContactForm
 
 
 def register(request):
@@ -86,3 +87,15 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect("projects:home")
+
+
+def contact(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Your message has been sent. Thank you!")
+            return redirect("accounts:contact")
+        else:
+            print(form.errors)
+    return render(request, "accounts/contact.html")
