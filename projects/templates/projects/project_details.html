@@ -1,0 +1,9 @@
+{% extends "general/index.html" %}
+
+{%block home %}
+<div class="card m-2" style="background-image: url('{{ project.get_image_url }}');">
+    <div class="card-body">
+        <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name}}</h5>
+    </div>
+</div>
+{% endblock%}
