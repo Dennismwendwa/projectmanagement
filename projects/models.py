@@ -56,3 +56,24 @@ class BackgroundImage(models.Model):
         selected_image_ids.append(random_image.id)
         request.session["selected_image_ids"] = selected_image_ids
         return random_image if random_image else None
+
+  
+class Task(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    department = models.CharField(max_length=100)
+    description = models.TextField()
+    workers = models.IntegerField(blank=True, null=True)
+    start_date = models.DateTimeField()
+    deadline = models.DateTimeField()
+    checklist = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "task"
+        verbose_name_plural = "tasks"
+        ordering = ("deadline",)
+    
+    def __str__(self):
+        return f"Task name: {self.name} created at {self.created_date}"

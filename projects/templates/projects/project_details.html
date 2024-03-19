@@ -1,4 +1,5 @@
 {% extends "general/index.html" %}
+{%load static%}
 
 {% block extra_css %}
 <style>
@@ -32,11 +33,44 @@
 </style>
 {% endblock %}
 
+{% block javascript %}
+<script src="{% static 'assets/js/more.js' %}"></script>
+{%endblock%}
+
 
 {%block project %}
-<div class="d-flex bg-class m-2">
-    <div class="ms-2 mt-2">
-        <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name}}</h5>
+<div class="bg-class">
+  <div class="d-flex m-2">
+      <div class="ms-2 mt-2">
+          <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name}}</h5>
+      </div>
+  </div>
+  <div class="row m-2">
+    <div class="col-md-2">
+      <div class="card p-2">
+        {% for task in project_tasks %}
+        <div class="border bg-light p-2 mb-1 rounded">
+          <p>{{task.name}}</p>
+        </div>
+        {%endfor%}
+        <h6 class="mt-2 p-2 rounded" id="add-target"> + Add target</h6>
+      </div>
     </div>
+  </div>
+</div>
+
+<div id="popup" class="popup rounded">
+  <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <div class="">
+        <form action="{% url 'projects:project_details' project.slug project.security_key %}" method="post">
+          {%csrf_token%}
+          {{form.as_p}}
+          <div class="mt-2">
+            <button class="btn btn-primary" type="submit">Save</button>
+          </div>
+        </form>
+      </div>
+  </div>
 </div>
 {% endblock%}
