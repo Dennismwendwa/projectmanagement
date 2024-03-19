@@ -1,8 +1,41 @@
 {% extends "general/index.html" %}
 
-{%block home %}
-<div class="card m-2" style="background-image: url('{{ project.get_image_url }}');">
-    <div class="card-body">
+{% block extra_css %}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      
+      #main {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      footer {
+        margin-top: auto;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+      }
+
+    .bg-class {
+        margin: 0;
+        padding: 0;
+        background-image: url('{{ project.get_image_url }}');
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+    }
+</style>
+{% endblock %}
+
+
+{%block project %}
+<div class="d-flex bg-class m-2">
+    <div class="ms-2 mt-2">
         <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name}}</h5>
     </div>
 </div>

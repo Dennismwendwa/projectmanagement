@@ -4,6 +4,7 @@ import random
 
 
 class Project(models.Model):
+    """This models stores all projects data"""
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL,

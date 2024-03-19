@@ -79,6 +79,8 @@
       <a class="btn-getstarted" href="index.html#about">Get Started</a>
 
     </div>
+    {% block extra_css %}
+    {%endblock%}
   </header>
 
   <main id="main">
@@ -86,6 +88,10 @@
     <section>
       <div class="container">
         {% block home %}
+        {% endblock%}
+      </div>
+      <div class="container-fluid">
+        {% block project %}
         {% endblock%}
       </div>
     </section>
