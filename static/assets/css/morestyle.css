@@ -3,6 +3,15 @@
     background-color: rgb(184, 175, 175);
 }
 
+.task:hover {
+    cursor: pointer;
+    background-color: rgb(98, 0, 255) !important;
+}
+
+.task:hover p {
+    color: white !important;
+}
+
 .popup {
     display: none;
     position: fixed;

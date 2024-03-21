@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.serializers import serialize
+from django.http import JsonResponse
 from .models import BackgroundImage, Project, Task
 from .forms import ProjectForm, TaskForm
 
@@ -64,6 +66,11 @@ def project_details(request, slug, security_key):
         "project_tasks": project_tasks,
     }
     return render(request, "projects/project_details.html", context)
+
+def task_details(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    serialized_task = serialize('json', [task])
+    return JsonResponse(serialized_task, safe=False)
 
 def landing_page(request):
 
