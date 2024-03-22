@@ -67,10 +67,11 @@ def project_details(request, slug, security_key):
     }
     return render(request, "projects/project_details.html", context)
 
+from django.forms.models import model_to_dict
 def task_details(request, pk):
     task = get_object_or_404(Task, pk=pk)
-    serialized_task = serialize('json', [task])
-    return JsonResponse(serialized_task, safe=False)
+    task_data = model_to_dict(task)
+    return JsonResponse(task_data, safe=False)
 
 def landing_page(request):
 

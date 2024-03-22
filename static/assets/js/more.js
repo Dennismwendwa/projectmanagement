@@ -14,8 +14,18 @@ function closePopup() {
     document.getElementById("popup").style.display = "none";
 }
 
+function openTaskPopup() {
+    document.getElementById("popupTask").style.display = "block";
+}
+
+
+function closeTaskPopup() {
+    document.getElementById("popupTask").style.display = "none";
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const tasks = document.querySelectorAll('.task');
+    const taskDetailsElement = document.getElementById("taskPopupDetails");
 
     tasks.forEach(task => {
         task.addEventListener('click', function() {
@@ -30,6 +40,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
                 .then(data => {
                     console.log('Task details:', data);
+                    
+                    taskDetailsElement.innerHTML = `
+                    <h2>Task Details</h2>
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>Location:</strong> ${data.location}</p>
+                    <p><strong>Department:</strong> ${data.department}</p>
+                    <p><strong>Description:</strong> ${data.description}</p>
+                    
+                `;
+                openTaskPopup();
                 })
                 .catch(error => {
                     console.error('Error fetching task details:', error);

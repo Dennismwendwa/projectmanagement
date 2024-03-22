@@ -76,15 +76,11 @@
 
 <div id="popupTask" class="popup rounded">
   <div class="popup-content">
-      <span class="close" onclick="closePopup()">&times;</span>
-      <div class="">
-        <form action="" method="post">
-          {%csrf_token%}
-          <h1>Empty form</h1>
-        </form>
+      <span class="close" onclick="closeTaskPopup()">&times;</span>
+      <div id="taskPopupDetails">
+
       </div>
   </div>
 </div>
-
 
 {% endblock%}
