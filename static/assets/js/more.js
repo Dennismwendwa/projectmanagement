@@ -42,8 +42,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log('Task details:', data);
                     
                     taskDetailsElement.innerHTML = `
-                    <h2>Task Details</h2>
-                    <p><strong>Name:</strong> ${data.name}</p>
+                    <div>
+                    <h5>Task: <strong>${data.name}</strong></h5>
+                    </div>
+                    <div class="d-flex align-items-center">
+                    <h4 class="p-3">Completed: </h4>
+                    <input class="" type="checkbox" id="complete" name="task-${data.name}" value="">
+                    </div>
                     <p><strong>Location:</strong> ${data.location}</p>
                     <p><strong>Department:</strong> ${data.department}</p>
                     <p><strong>Description:</strong> ${data.description}</p>

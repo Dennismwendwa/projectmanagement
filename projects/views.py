@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.serializers import serialize
+from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from .models import BackgroundImage, Project, Task
 from .forms import ProjectForm, TaskForm
@@ -67,7 +67,7 @@ def project_details(request, slug, security_key):
     }
     return render(request, "projects/project_details.html", context)
 
-from django.forms.models import model_to_dict
+
 def task_details(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task_data = model_to_dict(task)
