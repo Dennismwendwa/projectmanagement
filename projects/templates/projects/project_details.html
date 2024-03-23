@@ -51,6 +51,14 @@
         {% for task in project_tasks %}
         <div class="border bg-light p-2 mb-1 rounded task" data-pk="{{task.pk}}">
           <p>{{task.name}}</p>
+          {% if task.checklist%}
+          <div>
+            <input type="checkbox" checked>
+          </div>
+          {%endif%}
+          {% if current_date > task.deadline and not task.checklist%}
+          <p class="bg-danger m-2">Task delayed</p>
+          {%endif%}
         </div>
         {%endfor%}
         <h6 class="mt-2 p-2 rounded" id="add-target"> + Add target</h6>

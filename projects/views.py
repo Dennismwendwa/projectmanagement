@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
-from .models import BackgroundImage, Project, Task
+from django.utils import timezone
+from .models import BackgroundImage, Project, Task, TaskCompleted
 from .forms import ProjectForm, TaskForm
 
 import uuid
@@ -35,6 +36,7 @@ def home(request):
 def project_details(request, slug, security_key):
     project = get_object_or_404(Project, slug=slug)
     project.security_key = security_key
+    current_date = timezone.now()
 
     project_tasks = Task.objects.filter(project=project)
     if request.method == "POST":
@@ -64,6 +66,7 @@ def project_details(request, slug, security_key):
         "project": project,
         "form": form,
         "project_tasks": project_tasks,
+        "current_date": current_date,
     }
     return render(request, "projects/project_details.html", context)
 
@@ -72,6 +75,25 @@ def task_details(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task_data = model_to_dict(task)
     return JsonResponse(task_data, safe=False)
+
+
+def task_completed(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    try:
+        completed_task = TaskCompleted.objects.get(task=task)
+        completed_task.delete()
+        task.checklist = False
+        task.save()
+    except TaskCompleted.DoesNotExist:
+        TaskCompleted.objects.create(
+            task=task,
+            completed=True,
+            completed_date=timezone.now()
+        )
+        task.checklist=True
+        task.save()
+    return JsonResponse({}
+    )
 
 def landing_page(request):
 

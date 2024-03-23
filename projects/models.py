@@ -77,3 +77,16 @@ class Task(models.Model):
     
     def __str__(self):
         return f"Task name: {self.name} created at {self.created_date}"
+    
+
+class TaskCompleted(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    completed_date = models.DateTimeField()
+
+    class Meta:
+        verbose_name = "task completed"
+        verbose_name_plural = "tasks completed"
+
+    def __str__(self):
+        return f"Task: {self.task.name} completed on {self.completed_date}"

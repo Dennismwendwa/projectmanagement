@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, BackgroundImage, Task
+from .models import Project, BackgroundImage, Task, TaskCompleted
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -12,6 +12,11 @@ class TaskAdmin(admin.ModelAdmin):
                     "deadline", "checklist")
 
 
+class TaskCompletedAdmin(admin.ModelAdmin):
+    list_display = ("task", "completed", "completed_date")
+
+
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(BackgroundImage)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(TaskCompleted, TaskCompletedAdmin)

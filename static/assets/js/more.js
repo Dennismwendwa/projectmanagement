@@ -39,23 +39,43 @@ document.addEventListener("DOMContentLoaded", function() {
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Task details:', data);
-                    
                     taskDetailsElement.innerHTML = `
+                    <div class="m-2">
                     <div>
-                    <h5>Task: <strong>${data.name}</strong></h5>
+                    <small>Task: <strong>${data.name}</strong></small>
                     </div>
                     <div class="d-flex align-items-center">
-                    <h4 class="p-3">Completed: </h4>
-                    <input class="" type="checkbox" id="complete" name="task-${data.name}" value="">
+                    <h4 class="pe-3">Completed: </h4>
+                    <input class="ps-3" type="checkbox" id="complete" name="task-${data.name}" value="">
                     </div>
+                    <div>
                     <p><strong>Location:</strong> ${data.location}</p>
+                    </div>
+                    <div>
                     <p><strong>Department:</strong> ${data.department}</p>
+                    </div>
+                    <div>
                     <p><strong>Description:</strong> ${data.description}</p>
+                    </div>
+                    </div>
                     
                 `;
                 openTaskPopup();
+                const completedTask = document.getElementById("complete");
+                if (completedTask) {
+                    completedTask.addEventListener("click", function() {
+                        const taskUrl = `/completed-task/${pk}`;
+                        fetch(taskUrl)
+                        .then(response => {
+                            if(response.ok){
+                                console.log("Task updated");
+                            }
+                        })
+                    })
+                }
                 })
+                
+
                 .catch(error => {
                     console.error('Error fetching task details:', error);
                 })
