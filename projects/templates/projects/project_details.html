@@ -37,6 +37,10 @@
 <script src="{% static 'assets/js/more.js' %}"></script>
 {%endblock%}
 
+{% block chart_cdn %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock%}
+
 
 {%block project %}
 <div class="bg-class">
@@ -51,21 +55,35 @@
         {% for task in project_tasks %}
         <div class="border bg-light p-2 mb-1 rounded task" data-pk="{{task.pk}}">
           <p>{{task.name}}</p>
-          {% if task.checklist%}
-          <div>
-            <input type="checkbox" checked>
+          <div class="d-flex">
+            <div>
+              <small class="{%if task.checklist%}bg-success{%elif current_date > task.deadline%}bg-danger{%endif%}
+                p-1 rounded"><i class="bi bi-clock"></i>
+                <span>{{task.start_date|date:"M. d" }} - {{task.deadline|date:"M. d" }}</span>
+              </small>
+            </div>
+            {% if task.checklist%}
+            <div class="ms-1">
+              <input type="checkbox" checked>
+            </div>
+            {%endif%}
+
           </div>
-          {%endif%}
-          {% if current_date > task.deadline and not task.checklist%}
-          <p class="bg-danger m-2">Task delayed</p>
-          {%endif%}
         </div>
         {%endfor%}
         <h6 class="mt-2 p-2 rounded" id="add-target"> + Add target</h6>
       </div>
     </div>
+    <div class="col-md-10">
+      <div class="">
+        <canvas id="pieChart" width="400" height="400"></canvas>
+      </div>
+    </div>
   </div>
 </div>
+
+{{ completed_tasks_count|json_script:"completed_tasks_count" }}
+{{ uncompleted_tasks_count|json_script:"uncompleted_tasks_count"}}
 
 <div id="popup" class="popup rounded">
   <div class="popup-content">
@@ -82,7 +100,7 @@
   </div>
 </div>
 
-<div id="popupTask" class="popup rounded">
+<div id="popupTask" class="taskPopup rounded">
   <div class="popup-content">
       <span class="close" onclick="closeTaskPopup()">&times;</span>
       <div id="taskPopupDetails">

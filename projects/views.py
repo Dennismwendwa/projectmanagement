@@ -38,6 +38,9 @@ def project_details(request, slug, security_key):
     project.security_key = security_key
     current_date = timezone.now()
 
+    completed_tasks_count = Task.objects.filter(checklist=True).count()
+    uncompleted_tasks_count = Task.objects.filter(checklist=False).count()
+
     project_tasks = Task.objects.filter(project=project)
     if request.method == "POST":
         form = TaskForm(request.POST)
@@ -67,6 +70,9 @@ def project_details(request, slug, security_key):
         "form": form,
         "project_tasks": project_tasks,
         "current_date": current_date,
+        "completed_tasks_count": completed_tasks_count,
+        "uncompleted_tasks_count": uncompleted_tasks_count,
+
     }
     return render(request, "projects/project_details.html", context)
 
