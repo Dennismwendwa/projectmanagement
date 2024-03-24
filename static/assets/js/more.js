@@ -110,14 +110,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-
     const completedTasksCount = JSON.parse(document.getElementById('completed_tasks_count').textContent);
     const uncompletedTasksCount = JSON.parse(document.getElementById('uncompleted_tasks_count').textContent);
+    const futureTasksCount = JSON.parse(document.getElementById('future_tasks_count').textContent);
+
     const data = {
-        labels: ['Completed', 'Uncompleted'],
+        labels: ['Completed', 'Delayed', 'Future'],
         datasets: [{
-            data: [completedTasksCount, uncompletedTasksCount],
-            backgroundColor: ['green', 'orange']
+            data: [completedTasksCount, uncompletedTasksCount, futureTasksCount],
+            backgroundColor: ['green', 'orange', 'blue']
         }]
     };
 
@@ -126,16 +127,55 @@ document.addEventListener("DOMContentLoaded", function() {
         maintainAspectRatio: false,
         legend: {
             labels: {
-                fontColor: 'blue'
+                fontColor: 'blue',
+                boxWidth: 10,
+                padding: 10,
+                backgroundColor: 'lightgray',
+                borderRadius: 5
             }
         }
     };
 
     const ctx = document.getElementById('pieChart').getContext('2d');
+    const ctx2 = document.getElementById('pieChart2').getContext('2d');
 
     const pieChart = new Chart(ctx, {
         type: 'pie',
         data: data,
         options: options
+    });
+
+    const pieChart2 = new Chart(ctx2, {
+        type: 'pie',
+        data: data,
+        options: options
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const months = JSON.parse(document.getElementById('months').textContent);
+    const taskCounts = JSON.parse(document.getElementById('task_counts').textContent);
+    
+    const ctx = document.getElementById('tasksBarChart').getContext('2d');
+    const tasksBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Tasks Count',
+                data: taskCounts,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
     });
 });

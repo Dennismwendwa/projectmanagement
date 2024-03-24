@@ -76,11 +76,12 @@ class Task(models.Model):
         ordering = ("deadline",)
     
     def __str__(self):
-        return f"Task name: {self.name} created at {self.created_date}"
+        return f"Task name: {self.name} created at {self.created_date}, department: {self.department}"
     
 
 class TaskCompleted(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE,
+                             limit_choices_to={"checklist": False})
     completed = models.BooleanField(default=False)
     completed_date = models.DateTimeField()
 
@@ -89,4 +90,4 @@ class TaskCompleted(models.Model):
         verbose_name_plural = "tasks completed"
 
     def __str__(self):
-        return f"Task: {self.task.name} completed on {self.completed_date}"
+        return f"Task: {self.task.name} completed on {self.completed_date}, dep: {self.task.department}"

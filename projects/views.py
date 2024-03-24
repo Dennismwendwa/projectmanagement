@@ -1,7 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.utils import timezone
+from django.db.models import Count, F
+from django.db.models.functions import ExtractMonth
+from datetime import datetime
+import matplotlib.pyplot as plt
+import io
 from .models import BackgroundImage, Project, Task, TaskCompleted
 from .forms import ProjectForm, TaskForm
 
@@ -38,8 +44,17 @@ def project_details(request, slug, security_key):
     project.security_key = security_key
     current_date = timezone.now()
 
-    completed_tasks_count = Task.objects.filter(checklist=True).count()
-    uncompleted_tasks_count = Task.objects.filter(checklist=False).count()
+    histogram_image = tasks_completed_histrogram(request, slug)
+
+    completed_tasks_count = Task.objects.filter(project=project, checklist=True).count()
+    uncompleted_tasks_count = Task.objects.filter(project=project, deadline__lt=current_date, checklist=False).count()
+    future_tasks_count = Task.objects.filter(project=project, deadline__gte=current_date, checklist=False).count()
+
+    tasks_by_month = Task.objects.filter(project=project).annotate(month=ExtractMonth('deadline')).values('month').annotate(count=Count('id'))
+    months = [datetime.strptime(str(month), '%m').strftime('%B') for month in range(1, 13)]
+    task_counts = [0] * 12
+    for task in tasks_by_month:
+        task_counts[task['month'] - 1] = task['count']
 
     project_tasks = Task.objects.filter(project=project)
     if request.method == "POST":
@@ -65,6 +80,7 @@ def project_details(request, slug, security_key):
         else:
             print(form.errors)
     form = TaskForm()
+    
     context = {
         "project": project,
         "form": form,
@@ -72,7 +88,10 @@ def project_details(request, slug, security_key):
         "current_date": current_date,
         "completed_tasks_count": completed_tasks_count,
         "uncompleted_tasks_count": uncompleted_tasks_count,
-
+        "future_tasks_count": future_tasks_count,
+        "months": months,
+        "task_counts": task_counts,
+        "histogram_image": histogram_image,
     }
     return render(request, "projects/project_details.html", context)
 
@@ -100,6 +119,42 @@ def task_completed(request, task_id):
         task.save()
     return JsonResponse({}
     )
+
+
+def tasks_completed_histrogram(request, slug):
+    project = get_object_or_404(Project, slug=slug)
+
+    tasks_completed_by_department_and_month = TaskCompleted.objects.filter(task__project=project).annotate(
+        month=ExtractMonth('completed_date'),
+        department=F('task__department')).values(
+            'department', 'month').annotate(count=Count('id'))
+
+    department_counts_by_month = {}
+    for entry in tasks_completed_by_department_and_month:
+        department = entry['department']
+        month = entry['month']
+        count = entry['count']
+        if department not in department_counts_by_month:
+            department_counts_by_month[department] = [0] * 12
+        department_counts_by_month[department][month - 1] = count
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    for department, counts in department_counts_by_month.items():
+        ax.bar(range(1, 13), counts, label=department)
+    ax.set_xticks(range(1, 13))
+    ax.set_xticklabels([datetime.strptime(str(month), '%m').strftime('%B') for month in range(1, 13)], rotation=45)
+    ax.set_xlabel('Month')
+    ax.set_ylabel('Number of Tasks Completed')
+    ax.set_title(f'Tasks Completed by Department and Month for Project: {project.name}')
+    ax.legend()
+    plt.tight_layout()
+
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+
+    return HttpResponse(buffer.getvalue(), content_type='image/png')
+
 
 def landing_page(request):
 

@@ -75,15 +75,42 @@
       </div>
     </div>
     <div class="col-md-10">
-      <div class="">
-        <canvas id="pieChart" width="400" height="400"></canvas>
+      <div class="d-flex">
+        <div class="p-2">
+          <div class="bg-white">
+            <canvas class="text-white" id="pieChart" width="300" height="300"></canvas>
+          </div>
+        </div>
+        <div class="p-2">
+          <div class="bg-white">
+            <canvas class="text-white" id="pieChart2" width="300" height="300"></canvas>
+          </div>
+        </div>
+        <div class="p-2">
+          <div class="bg-white">
+            <h6 class="text-center">Monthly Task Counts for 2024</h6>
+            <canvas id="tasksBarChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="p-2">
+          <div class="">
+            <img class="img-fluid bg-white" width="800px" src="{% url 'projects:tasks_completed_histogram' project.slug %}"
+            alt="Histogram of Completed Tasks by Department and Month">
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 </div>
 
 {{ completed_tasks_count|json_script:"completed_tasks_count" }}
 {{ uncompleted_tasks_count|json_script:"uncompleted_tasks_count"}}
+{{ future_tasks_count|json_script:"future_tasks_count"}}
+{{ months|json_script:"months"}}
+{{ task_counts|json_script:"task_counts"}}
 
 <div id="popup" class="popup rounded">
   <div class="popup-content">
