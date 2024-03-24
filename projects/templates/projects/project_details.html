@@ -1,0 +1,139 @@
+{% extends "general/index.html" %}
+{%load static%}
+
+{% block extra_css %}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      
+      #main {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      footer {
+        margin-top: auto;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+      }
+
+    .bg-class {
+        margin: 0;
+        padding: 0;
+        background-image: url('{{ project.get_image_url }}');
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+    }
+</style>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'assets/js/more.js' %}"></script>
+{%endblock%}
+
+{% block chart_cdn %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock%}
+
+
+{%block project %}
+<div class="bg-class">
+  <div class="d-flex m-2">
+      <div class="ms-2 mt-2">
+          <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name}}</h5>
+      </div>
+  </div>
+  <div class="row m-2">
+    <div class="col-md-2">
+      <div class="card p-2">
+        {% for task in project_tasks %}
+        <div class="border bg-light p-2 mb-1 rounded task" data-pk="{{task.pk}}">
+          <p>{{task.name}}</p>
+          <div class="d-flex">
+            <div>
+              <small class="{%if task.checklist%}bg-success{%elif current_date > task.deadline%}bg-danger{%endif%}
+                p-1 rounded"><i class="bi bi-clock"></i>
+                <span>{{task.start_date|date:"M. d" }} - {{task.deadline|date:"M. d" }}</span>
+              </small>
+            </div>
+            {% if task.checklist%}
+            <div class="ms-1">
+              <input type="checkbox" checked>
+            </div>
+            {%endif%}
+
+          </div>
+        </div>
+        {%endfor%}
+        <h6 class="mt-2 p-2 rounded" id="add-target"> + Add target</h6>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <div class="d-flex">
+        <div class="p-2">
+          <div class="bg-white">
+            <canvas class="text-white" id="pieChart" width="300" height="300"></canvas>
+          </div>
+        </div>
+        <div class="p-2">
+          <div class="bg-white">
+            <canvas class="text-white" id="pieChart2" width="300" height="300"></canvas>
+          </div>
+        </div>
+        <div class="p-2">
+          <div class="bg-white">
+            <h6 class="text-center">Monthly Task Counts for 2024</h6>
+            <canvas id="tasksBarChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="p-2">
+          <div class="">
+            <img class="img-fluid bg-white" width="800px" src="{% url 'projects:tasks_completed_histogram' project.slug %}"
+            alt="Histogram of Completed Tasks by Department and Month">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{{ completed_tasks_count|json_script:"completed_tasks_count" }}
+{{ uncompleted_tasks_count|json_script:"uncompleted_tasks_count"}}
+{{ future_tasks_count|json_script:"future_tasks_count"}}
+{{ months|json_script:"months"}}
+{{ task_counts|json_script:"task_counts"}}
+
+<div id="popup" class="popup rounded">
+  <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <div class="">
+        <form action="{% url 'projects:project_details' project.slug project.security_key %}" method="post">
+          {%csrf_token%}
+          {{form.as_p}}
+          <div class="mt-2">
+            <button class="btn btn-primary" type="submit">Save</button>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+
+<div id="popupTask" class="taskPopup rounded">
+  <div class="popup-content">
+      <span class="close" onclick="closeTaskPopup()">&times;</span>
+      <div id="taskPopupDetails">
+
+      </div>
+  </div>
+</div>
+
+{% endblock%}

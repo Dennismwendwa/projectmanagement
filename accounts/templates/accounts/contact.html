@@ -1,0 +1,95 @@
+{% extends "general/index.html" %}
+
+{% block home %}
+    <section id="contact" class="contact">
+
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Contact</h2>
+          <p>Contact us for any inquries or info.</p>
+        </div>
+  
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+  
+          <div class="row gy-4">
+  
+            <div class="col-lg-6">
+  
+              <div class="row gy-4">
+                <div class="col-md-6">
+                  <div class="info-item" data-aos="fade" data-aos-delay="200">
+                    <i class="bi bi-geo-alt"></i>
+                    <h3>Address</h3>
+                    <p>Biashara Street</p>
+                    <p>Nairobi, Kenya</p>
+                  </div>
+                </div>
+  
+                <div class="col-md-6">
+                  <div class="info-item" data-aos="fade" data-aos-delay="300">
+                    <i class="bi bi-telephone"></i>
+                    <h3>Call Us</h3>
+                    <p>+254 712 930 893</p>
+                    <p></p>
+                  </div>
+                </div>
+  
+                <div class="col-md-6">
+                  <div class="info-item" data-aos="fade" data-aos-delay="400">
+                    <i class="bi bi-envelope"></i>
+                    <h3>Email Us</h3>
+                    <p>info@customercare.com</p>
+                    <p>contact@projectmanagement.com</p>
+                  </div>
+                </div>
+  
+                <div class="col-md-6">
+                  <div class="info-item" data-aos="fade" data-aos-delay="500">
+                    <i class="bi bi-clock"></i>
+                    <h3>Open Hours</h3>
+                    <p>Monday - Friday</p>
+                    <p>8:00AM - 05:00PM</p>
+                  </div>
+                </div>
+  
+              </div>
+  
+            </div>
+  
+            <div class="col-lg-6">
+              <form action="{% url 'accounts:contact' %}" method="post" class="" data-aos="fade-up" data-aos-delay="200">
+                {% csrf_token %}
+                <div class="row gy-4">
+  
+                  <div class="col-md-6">
+                    <input type="text" name="full_name" class="form-control" placeholder="Your Name" required>
+                  </div>
+  
+                  <div class="col-md-6 ">
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                  </div>
+  
+                  <div class="col-md-12">
+                    <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                  </div>
+  
+                  <div class="col-md-12">
+                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                  </div>
+  
+                  <div class="col-md-12 text-center">
+                    {% for message in messages %}
+                    <div class="bg-success p-2 mb-2">{{message}}</div>
+                    {%endfor%}
+                    <button class="btn btn-secondary btn btn-lg" type="submit">Send Message</button>
+                  </div>
+  
+                </div>
+              </form>
+            </div>
+  
+          </div>
+  
+        </div>
+  
+    </section>
+{%endblock%}

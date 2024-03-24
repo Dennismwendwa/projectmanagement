@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import auth, Group
 from .models import User
+from .forms import ContactForm
 
 
 def register(request):
@@ -14,6 +15,7 @@ def register(request):
         password1 = request.POST["password1"]
         password2 = request.POST["password2"]
         role = request.POST.get("role", "")
+        is_administrator = request.POST.get("is_administrator", True)
 
         if password1 == password2 and len(password1) > 7:
             if User.objects.filter(username=username).exists():
@@ -28,6 +30,9 @@ def register(request):
                                                 last_name=last_name,
                                                 email=email,
                                                 password=password1,)
+                if is_administrator:
+                    user.is_administrator = True
+                    user.save()
                 if role:
                     try:
                         role = role.capitalize()
@@ -81,4 +86,19 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect("projects:home")
+    return redirect("projects:landing_page")
+
+
+def contact(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Your message has been sent. Thank you!")
+            return redirect("accounts:contact")
+        else:
+            print(form.errors)
+    return render(request, "accounts/contact.html")
+
+def aboutus(request):
+    return render(request, "accounts/aboutus.html")

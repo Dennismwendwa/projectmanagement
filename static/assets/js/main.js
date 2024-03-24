@@ -1,13 +1,4 @@
-/**
-* Template Name: Append
-* Template URL: https://bootstrapmade.com/append-bootstrap-website-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 
-/**
- * Preloader
- */
 const preloader = document.querySelector('#preloader');
 if (preloader) {
   window.addEventListener('load', () => {
@@ -36,41 +27,6 @@ scrollTop.addEventListener('click', (e) => {
 window.addEventListener('load', toggleScrollTop);
 document.addEventListener('scroll', toggleScrollTop);
 
-/**
- * Apply .scrolled class to the body as the page is scrolled down
- */
-function toggleScrolled() {
-  const selectBody = document.querySelector('body');
-  const selectHeader = document.querySelector('#header');
-  if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
-  window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
-}
-
-document.addEventListener('scroll', toggleScrolled);
-window.addEventListener('load', toggleScrolled);
-
-/**
- * Scroll up sticky header to headers with .scroll-up-sticky class
- */
-let lastScrollTop = 0;
-window.addEventListener('scroll', function() {
-  const selectHeader = document.querySelector('#header');
-  if (!selectHeader.classList.contains('scroll-up-sticky')) return;
-
-  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-  if (scrollTop > lastScrollTop && scrollTop > selectHeader.offsetHeight) {
-    selectHeader.style.setProperty('position', 'sticky', 'important');
-    selectHeader.style.top = `-${header.offsetHeight + 50}px`;
-  } else if (scrollTop > selectHeader.offsetHeight) {
-    selectHeader.style.setProperty('position', 'sticky', 'important');
-    selectHeader.style.top = "0";
-  } else {
-    selectHeader.style.removeProperty('top');
-    selectHeader.style.removeProperty('position');
-  }
-  lastScrollTop = scrollTop;
-});
 
 /**
  * Mobile nav toggle

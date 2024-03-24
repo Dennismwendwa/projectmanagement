@@ -1,0 +1,50 @@
+#add-target:hover {
+    cursor: pointer;
+    background-color: rgb(184, 175, 175);
+}
+
+.task:hover {
+    cursor: pointer;
+    background-color: rgb(98, 0, 255) !important;
+}
+
+.task:hover p {
+    color: white !important;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+.taskPopup {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+.popup-content {
+    /*text-align: center;*/
+}
+
+.close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
