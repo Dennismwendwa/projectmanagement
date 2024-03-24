@@ -86,7 +86,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect("projects:home")
+    return redirect("projects:landing_page")
 
 
 def contact(request):

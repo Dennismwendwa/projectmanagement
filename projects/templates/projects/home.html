@@ -1,36 +1,38 @@
 {% extends "general/index.html" %}
 
 {% block home %}
-<h1>DashBoard </h1>
-<div>
-    <form action="{% url 'projects:home' %}" method="post">
-        {%csrf_token%}
-        <div>
-            <lebal>Project name</label>
-            <input name="name" type="text" required>
-        </div>
-        <div>
-            <button class="btn btn-secondary m-2" type="submit">Create</button>
-        </div>
-    </form>
-</div>
-<div>
+<section>
+    <h1>DashBoard </h1>
     <div>
-        <div class="row">
-            {% for project in projects %}
-            <div class="col-md-3">
-                <div class="m-1">
-                    <a href="{% url 'projects:project_details' project.slug project.security_key %}">
-                    <div class="card m-1" style="background-image: url('{{ project.get_image_url }}');">
-                        <div class="card-body">
-                            <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name}}</h5>
-                        </div>
-                    </div>
-                    </a>
-                </div>
+        <form action="{% url 'projects:home' %}" method="post">
+            {%csrf_token%}
+            <div>
+                <lebal>Project name</label>
+                <input name="name" type="text" required>
             </div>
-            {%endfor%}
+            <div>
+                <button class="btn btn-secondary m-2" type="submit">Create</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <div>
+            <div class="row">
+                {% for project in projects %}
+                <div class="col-md-3">
+                    <div class="m-1">
+                        <a href="{% url 'projects:project_details' project.slug project.security_key %}">
+                        <div class="card m-1" style="background-image: url('{{ project.get_image_url }}');">
+                            <div class="card-body">
+                                <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name}}</h5>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

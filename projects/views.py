@@ -124,7 +124,8 @@ def task_completed(request, task_id):
 def tasks_completed_histrogram(request, slug):
     project = get_object_or_404(Project, slug=slug)
 
-    tasks_completed_by_department_and_month = TaskCompleted.objects.filter(task__project=project).annotate(
+    tasks_completed_by_department_and_month = TaskCompleted.objects.filter(
+        task__project=project).annotate(
         month=ExtractMonth('completed_date'),
         department=F('task__department')).values(
             'department', 'month').annotate(count=Count('id'))
@@ -157,6 +158,5 @@ def tasks_completed_histrogram(request, slug):
 
 
 def landing_page(request):
-
 
     return render(request, "projects/landing_page.html")
