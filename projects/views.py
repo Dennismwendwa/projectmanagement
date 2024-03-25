@@ -8,6 +8,7 @@ from django.db.models.functions import ExtractMonth
 from datetime import datetime
 import matplotlib.pyplot as plt
 import io
+from utils.decorators import has_access
 from .models import BackgroundImage, Project, Task, TaskCompleted
 from .forms import ProjectForm, TaskForm
 
@@ -39,6 +40,7 @@ def home(request):
     return render(request, "projects/home.html", context)
 
 
+@has_access
 def project_details(request, slug, security_key):
     project = get_object_or_404(Project, slug=slug)
     project.security_key = security_key
@@ -160,3 +162,7 @@ def tasks_completed_histrogram(request, slug):
 def landing_page(request):
 
     return render(request, "projects/landing_page.html")
+
+def package_subscription(request):
+
+    return render(request, "projects/package.html")

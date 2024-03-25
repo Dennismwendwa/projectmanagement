@@ -25,21 +25,21 @@
                         {%endfor%}
                       </div>
       
-                      <form class="mx-1 mx-md-4" action="" method="post">
+                      <form class="mx-1" action="{% url 'accounts:register' %}" method="post">
                         {% csrf_token %}
                         
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
-                              <input name="first_name" type="text" class="form-control" required >
-                              <label class="form-label" for="lastname">first name</label>
+                              <input name="first_name" id="first_name" type="text" class="form-control" required >
+                              <label class="form-label" for="firstname">first name</label>
                             </div>
                         </div>
 
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
-                              <input name="last_name" type="text" class="form-control" required >
+                              <input name="last_name" id="last_name" type="text" class="form-control" required >
                               <label class="form-label" for="lastname">Last name</label>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
-                              <input name="email" type="email" class="form-control" required >
+                              <input name="email" id="email" type="email" class="form-control" required >
                               <label class="form-label" for="email">email</label>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                           <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
-                            <input name="username" type="text" class="form-control" required >
+                            <input name="username" id="username" type="text" class="form-control" required >
                             <label class="form-label" for="username">username</label>
                           </div>
                         </div>
@@ -63,7 +63,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                           <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
-                            <input type="password" name="password1" id="form3Example4c" name="password" class="form-control" />
+                            <input type="password" id="password1" name="password1" id="form3Example4c" name="password" class="form-control" />
                             <label class="form-label" for="form3Example4c">Password</label>
                           </div>
                         </div>
@@ -71,7 +71,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                           <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
-                            <input type="password" name="password2" id="form3Example4cd" class="form-control" />
+                            <input type="password" id="password2" name="password2" id="form3Example4cd" class="form-control" />
                             <label class="form-label" for="form3Example4cd">Repeat your password</label>
                           </div>
                         </div>
@@ -79,13 +79,67 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
-                                <select class="form-control" name="role">
+                                <select class="form-control" id="role" name="role">
                                 <option value="" disabled selected>Choose option</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Member">Member</option>
                                 </select>
                                 <label for="role">Role</label>
                             </div>
+                        </div>
+
+                        <div class="row g-2">
+
+                          <div class="col-md-4">
+                            <div class="pricing-item">
+                              <h3>Free Plan</h3>
+                              <div class="icon">
+                                <i class="bi bi-box"></i>
+                              </div>
+                              <h4><sup>$</sup>0<span> / month</span></h4>
+                              <ul>
+                                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                              </ul>
+                              <div class="text-center">
+                                <input type="radio" id="free_plan" name="subscription_plan" value="free" required>
+                                <label for="free_plan">Choose Free Plan</label>
+                              </div>
+                            </div>
+                          </div>
+                    
+                          <div class="col-lg-4">
+                            <div class="pricing-item featured">
+                              <h3>Business Plan</h3>
+                              <div class="icon">
+                                <i class="bi bi-rocket"></i>
+                              </div>
+                    
+                              <h4><sup>$</sup>29<span> / month</span></h4>
+                              <ul>
+                                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                              </ul>
+                              <div class="text-center">
+                                <input type="radio" id="business_plan" name="subscription_plan" value="business">
+                                <label for="business_plan">Choose Business Plan</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-4">
+                            <div class="pricing-item">
+                              <h3>Developer Plan</h3>
+                              <div class="icon">
+                                <i class="bi bi-send"></i>
+                              </div>
+                              <h4><sup>$</sup>49<span> / month</span></h4>
+                              <ul>
+                                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
+                              </ul>
+                              <div class="text-center">
+                                <input type="radio" id="developer_plan" name="subscription_plan" value="developer">
+                                <label for="developer_plan">Choose Developer Plan</label>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         
                         <div class="form-check d-flex justify-content-center mb-5">
@@ -96,7 +150,7 @@
                         </div>
       
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                          <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                          <button type="submit" class="btn btn-primary btn-lg">next</button>
                         </div>
                       </form>
       

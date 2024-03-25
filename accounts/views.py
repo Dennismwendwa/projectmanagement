@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import auth, Group
-from .models import User
+from django.utils import timezone
+from datetime import timedelta
+from .models import User, SubscriptionPlan, UserSubscription
 from .forms import ContactForm
 
 
@@ -16,7 +18,11 @@ def register(request):
         password2 = request.POST["password2"]
         role = request.POST.get("role", "")
         is_administrator = request.POST.get("is_administrator", True)
-
+        subscription_plan = request.POST.get("subscription_plan")
+        print(subscription_plan)
+        print("password1", password1)
+        print("first", first_name)
+        print()
         if password1 == password2 and len(password1) > 7:
             if User.objects.filter(username=username).exists():
                 messages.warning(request, f"Username already taken")
@@ -30,6 +36,20 @@ def register(request):
                                                 last_name=last_name,
                                                 email=email,
                                                 password=password1,)
+                start_date=timezone.now()
+                if subscription_plan == "free":
+                    plan = SubscriptionPlan.objects.get(name="Free Plan")
+                elif subscription_plan == "business":
+                    plan = SubscriptionPlan.objects.get(name="Business Plan")
+                elif subscription_plan == "developer":
+                    plan = SubscriptionPlan.objects.get(name="Developer Plan")
+                UserSubscription.objects.create(
+                    user=user,
+                    plan=plan,
+                    start_date=start_date,
+                    end_date=start_date + timedelta(days=30)
+                )
+                
                 if is_administrator:
                     user.is_administrator = True
                     user.save()
@@ -52,6 +72,9 @@ def register(request):
             messages.warning(request, "Password not matching")
             return redirect("accounts:register")
     return render(request, "accounts/register.html")
+
+def select_package(request):
+    return render(request, "accounts/package_selection.html")
 
 
 def login_helper(request, username, password):

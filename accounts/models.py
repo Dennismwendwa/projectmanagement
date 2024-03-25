@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     is_administrator = models.BooleanField(default=False)
 
+
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
