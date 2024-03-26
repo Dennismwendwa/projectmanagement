@@ -9,6 +9,12 @@ class User(AbstractUser):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
+    @property
+    def can_create_team(self):
+        if self.is_administrator:
+            return True
+        return False
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

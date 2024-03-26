@@ -19,10 +19,7 @@ def register(request):
         role = request.POST.get("role", "")
         is_administrator = request.POST.get("is_administrator", True)
         subscription_plan = request.POST.get("subscription_plan")
-        print(subscription_plan)
-        print("password1", password1)
-        print("first", first_name)
-        print()
+        
         if password1 == password2 and len(password1) > 7:
             if User.objects.filter(username=username).exists():
                 messages.warning(request, f"Username already taken")
@@ -71,6 +68,11 @@ def register(request):
         else:
             messages.warning(request, "Password not matching")
             return redirect("accounts:register")
+    return render(request, "accounts/register.html", {"admin_user": True})
+
+def create_team(request):
+    if request.method == "POST":
+        print("\ncreating new team\n")
     return render(request, "accounts/register.html")
 
 def select_package(request):
