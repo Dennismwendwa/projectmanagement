@@ -6,10 +6,10 @@ from .models import Profile, Contact, SubscriptionPlan, UserSubscription
 
 
 class UserAdmin(UA):
-    list_display = ('username', 'email', "first_name", "last_name",
-                    'is_staff', 'is_administrator')
-    search_fields = ('username', 'email')
-    ordering = ('username',)
+    list_display = ("username", "email", "first_name", "last_name",
+                    "is_staff", "is_administrator", "team_member")
+    search_fields = ("username", "email")
+    ordering = ("username",)
 
 
 class ContactAdmin(admin.ModelAdmin):
@@ -21,7 +21,7 @@ class SubscriptionPlanAdmin(admin.ModelAdmin):
 
 
 class UserSubscriptionAdmin(admin.ModelAdmin):
-    list_display = ("user", "plan", "openning_date", "start_date", "end_date")
+    list_display = ("user", "plan", "openning_date", "start_date", "end_date", "user_admin")
 
 
 admin.site.register(User, UserAdmin)

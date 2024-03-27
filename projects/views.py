@@ -3,11 +3,13 @@ from django.http import HttpResponse
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.utils import timezone
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.db.models.functions import ExtractMonth
 from datetime import datetime
 import matplotlib.pyplot as plt
 import io
+from utils.decorators import has_access
+from accounts.models import UserSubscription
 from .models import BackgroundImage, Project, Task, TaskCompleted
 from .forms import ProjectForm, TaskForm
 
@@ -15,8 +17,13 @@ import uuid
 
 
 def home(request):
-    projects = Project.objects.all()
-    security_key = uuid.uuid4()
+    current_user = UserSubscription.objects.filter(user=request.user)
+    my_admins = []
+    for user in current_user:
+        if user.user_admin and user.user_admin not in my_admins:
+            my_admins.append(user.user_admin)
+
+    projects = Project.objects.filter(Q(created_by=request.user) | Q(created_by__in=my_admins))
 
     if request.method == "POST":
         form = ProjectForm(request.POST)
@@ -39,6 +46,7 @@ def home(request):
     return render(request, "projects/home.html", context)
 
 
+@has_access
 def project_details(request, slug, security_key):
     project = get_object_or_404(Project, slug=slug)
     project.security_key = security_key
@@ -160,3 +168,7 @@ def tasks_completed_histrogram(request, slug):
 def landing_page(request):
 
     return render(request, "projects/landing_page.html")
+
+def package_subscription(request):
+
+    return render(request, "projects/package.html")

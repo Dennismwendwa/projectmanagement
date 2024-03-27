@@ -43,10 +43,11 @@
 
 
 {%block project %}
+<section>
 <div class="bg-class">
   <div class="d-flex m-2">
       <div class="ms-2 mt-2">
-          <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name}}</h5>
+          <h5 class="bg-secondary text-white rounded ps-1 pe-1">{{project.name|title}}</h5>
       </div>
   </div>
   <div class="row m-2">
@@ -135,5 +136,5 @@
       </div>
   </div>
 </div>
-
+</section>
 {% endblock%}

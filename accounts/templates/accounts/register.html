@@ -25,21 +25,21 @@
                         {%endfor%}
                       </div>
       
-                      <form class="mx-1 mx-md-4" action="" method="post">
+                      <form class="mx-1" action="{% if admin_user %}{% url 'accounts:register' %}{%else%}{% url 'accounts:add_team_member' %}{%endif%}" method="post">
                         {% csrf_token %}
                         
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
-                              <input name="first_name" type="text" class="form-control" required >
-                              <label class="form-label" for="lastname">first name</label>
+                              <input name="first_name" id="first_name" type="text" class="form-control" required >
+                              <label class="form-label" for="firstname">first name</label>
                             </div>
                         </div>
 
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
-                              <input name="last_name" type="text" class="form-control" required >
+                              <input name="last_name" id="last_name" type="text" class="form-control" required >
                               <label class="form-label" for="lastname">Last name</label>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
-                              <input name="email" type="email" class="form-control" required >
+                              <input name="email" id="email" type="email" class="form-control" required >
                               <label class="form-label" for="email">email</label>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                           <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
-                            <input name="username" type="text" class="form-control" required >
+                            <input name="username" id="username" type="text" class="form-control" required >
                             <label class="form-label" for="username">username</label>
                           </div>
                         </div>
@@ -63,7 +63,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                           <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
-                            <input type="password" name="password1" id="form3Example4c" name="password" class="form-control" />
+                            <input type="password" id="password1" name="password1" id="form3Example4c" name="password" class="form-control" />
                             <label class="form-label" for="form3Example4c">Password</label>
                           </div>
                         </div>
@@ -71,7 +71,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                           <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
-                            <input type="password" name="password2" id="form3Example4cd" class="form-control" />
+                            <input type="password" id="password2" name="password2" id="form3Example4cd" class="form-control" />
                             <label class="form-label" for="form3Example4cd">Repeat your password</label>
                           </div>
                         </div>
@@ -79,7 +79,7 @@
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
-                                <select class="form-control" name="role">
+                                <select class="form-control" id="role" name="role">
                                 <option value="" disabled selected>Choose option</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Member">Member</option>
@@ -87,6 +87,11 @@
                                 <label for="role">Role</label>
                             </div>
                         </div>
+                        <input name="team_member" id="team_memeber" type="text" value=True hidden required >
+
+                        {% if admin_user %}
+                        {% include "accounts/packages.html"%}
+                        {%endif%}
                         
                         <div class="form-check d-flex justify-content-center mb-5">
                           <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
@@ -96,7 +101,7 @@
                         </div>
       
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                          <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                          <button type="submit" class="btn btn-primary btn-lg">next</button>
                         </div>
                       </form>
       

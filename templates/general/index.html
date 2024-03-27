@@ -45,23 +45,9 @@
           <li><a href="{% url 'accounts:aboutus' %}">About</a></li>
           <li><a href="">Services</a></li>
           <li><a href="">Blog</a></li>
-          <li class="dropdown has-dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down"></i></a>
-            <ul class="dd-box-shadow">
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown has-dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down"></i></a>
-                <ul class="dd-box-shadow">
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
+          {% if user.can_create_team%}
+          <li><a href="{% url 'accounts:add_team_member' %}">Create Team</a></li>
+          {%endif%}
           <li class="text-success"><a href="{% url 'accounts:contact' %}">Contact</a></li>
           {% if user.is_authenticated %}
           <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
@@ -75,6 +61,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
+      <a class="btn-getstarted">Hello, {{user.username|title}}</a>
       <a class="btn-getstarted" href="index.html#about">Get Started</a>
 
     </div>
@@ -93,6 +80,7 @@
         {% block project %}
         {% endblock%}
       </div>
+
     </section>
 
   </main>
