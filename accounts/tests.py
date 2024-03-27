@@ -2,11 +2,12 @@ from django.test import TestCase
 from django.shortcuts import reverse
 from django.contrib.auth.models import Group
 from django.contrib.messages import get_messages
-from .models import User
+from .models import User, SubscriptionPlan
 
 
 class AccountsRegisterView(TestCase):
     def test_register_new_user(self):
+        SubscriptionPlan.objects.create(name="Free Plan", price="0", description="test plan")
         url = reverse("accounts:register")
 
         data = {
@@ -17,6 +18,7 @@ class AccountsRegisterView(TestCase):
             "password1": "1234567890",
             "password2": "1234567890",
             "role": "admin",
+            "subscription_plan": "free",
         }
 
         response = self.client.post(url, data)
@@ -29,6 +31,7 @@ class AccountsRegisterView(TestCase):
         self.assertTrue(user.is_authenticated)
 
     def test_register_with_existing_username(self):
+        SubscriptionPlan.objects.create(name="Free Plan", price="0", description="test plan")
         url = reverse("accounts:register")
 
         data = {
@@ -39,6 +42,7 @@ class AccountsRegisterView(TestCase):
             "password1": "1234567890",
             "password2": "1234567890",
             "role": "admin",
+            "subscription_plan": "free",
         }
         respons = self.client.post(url, data)
         response = self.client.post(url, data)
@@ -50,6 +54,7 @@ class AccountsRegisterView(TestCase):
         self.assertEqual(str(messages[0]), "Username already taken")
 
     def test_register_with_existing_email(self):
+        SubscriptionPlan.objects.create(name="Free Plan", price="0", description="test plan")
         url = reverse("accounts:register")
 
         data = {
@@ -60,6 +65,7 @@ class AccountsRegisterView(TestCase):
             "password1": "1234567890",
             "password2": "1234567890",
             "role": "admin",
+            "subscription_plan": "free",
         }
         data1 = {
             "first_name": "dennis",
@@ -69,6 +75,7 @@ class AccountsRegisterView(TestCase):
             "password1": "1234567890",
             "password2": "1234567890",
             "role": "admin",
+            "subscription_plan": "free",
         }
         respons = self.client.post(url, data)
         response = self.client.post(url, data1)
@@ -81,6 +88,7 @@ class AccountsRegisterView(TestCase):
         self.assertEqual(User.objects.count(), 1)
     
     def test_register_with_short_password(self):
+        SubscriptionPlan.objects.create(name="Free Plan", price="0", description="test plan")
         url = reverse("accounts:register")
 
         data = {
@@ -91,6 +99,7 @@ class AccountsRegisterView(TestCase):
             "password1": "1234567",
             "password2": "1234567890",
             "role": "admin",
+            "subscription_plan": "free",
         }
 
         response = self.client.post(url, data)
@@ -101,7 +110,9 @@ class AccountsRegisterView(TestCase):
         self.assertEqual(messages[0].level_tag, 'warning')
         self.assertEqual(str(messages[0]), "Password MUST have minimum of 8 characters!")
 
+
     def test_register_with_not_matching_password(self):
+        SubscriptionPlan.objects.create(name="Free Plan", price="0", description="test plan")
         url = reverse("accounts:register")
 
         data = {
@@ -112,6 +123,7 @@ class AccountsRegisterView(TestCase):
             "password1": "123456789000",
             "password2": "1234567890",
             "role": "admin",
+            "subscription_plan": "free",
         }
 
         response = self.client.post(url, data)
@@ -178,6 +190,7 @@ class AccountsLoginView(TestCase):
 
 class AccountsLogout(TestCase):
     def setUp(self) -> None:
+        SubscriptionPlan.objects.create(name="Free Plan", price="0", description="test plan")
         url = reverse("accounts:register")
 
         data = {
@@ -188,6 +201,7 @@ class AccountsLogout(TestCase):
             "password1": "1234567890",
             "password2": "1234567890",
             "role": "admin",
+            "subscription_plan": "free",
         }
 
         response = self.client.post(url, data)
