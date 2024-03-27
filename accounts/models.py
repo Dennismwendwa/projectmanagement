@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     is_administrator = models.BooleanField(default=False)
+    team_member = models.BooleanField(default=False)
 
 
     class Meta:
@@ -58,6 +59,10 @@ class SubscriptionPlan(models.Model):
 
 class UserSubscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_admin = models.ForeignKey(User, default=None, related_name="my_admin",
+                                   null=True,
+                                   limit_choices_to={"is_administrator": True},
+                                   on_delete=models.CASCADE)
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
     openning_date = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField()

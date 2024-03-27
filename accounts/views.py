@@ -72,7 +72,54 @@ def register(request):
 
 def create_team(request):
     if request.method == "POST":
-        print("\ncreating new team\n")
+        
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        username = request.POST["username"]
+        email = request.POST["email"]
+        password1 = request.POST["password1"]
+        password2 = request.POST["password2"]
+        role = request.POST.get("role", "member")
+        team_member = request.POST["team_member"]
+
+        subscription_plan = UserSubscription.objects.get(user=request.user)
+
+        if password1 == password2 and len(password1) > 7:
+            if User.objects.filter(username=username).exists():
+                messages.warning(request, f"Username already taken")
+                return redirect("accounts:register")
+            elif User.objects.filter(email=email).exists():
+                messages.warning(request, f"Email already in use")
+                return redirect("accounts:register")
+            else:
+                user = User.objects.create_user(username=username,
+                                                first_name=first_name,
+                                                last_name=last_name,
+                                                email=email,
+                                                password=password1,)
+                start_date=timezone.now()
+
+                UserSubscription.objects.create(
+                    user=user,
+                    plan=subscription_plan.plan,
+                    user_admin=request.user,
+                    start_date=subscription_plan.start_date,
+                    end_date=subscription_plan.end_date
+                )
+                
+                user.team_member = True
+                user.save()
+                if role:
+                    try:
+                        role = role.capitalize()
+                        group = Group.objects.get(name=role)
+                    except Group.DoesNotExist:
+                        group = Group.objects.create(name=role)
+                    group.user_set.add(user)
+
+                status = login_helper(request, username, password1)
+                if status == "success":
+                    return redirect("projects:home")
     return render(request, "accounts/register.html")
 
 def select_package(request):
