@@ -1,0 +1,23 @@
+{% extends "general/index.html" %}
+
+{%block home%}
+<section>
+    <div class="">
+        <div class="">
+            <div class="text-center">
+                <img class="rounded img-fluid" src="{{blog.image.url}}">
+            </div>
+            <div class="">
+                <h2 class="text-center m-2 border-bottom">{{blog.title|title}}</h2>
+                <div class="m-2">
+                    <small>Author: {{blog.author.first_name}} {{blog.author.last_name}}</small><span> - {{blog.publish_date}}</span>
+                </div>
+                <div class="m-2">
+                    <p>{{blog.description}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{%endblock%}
