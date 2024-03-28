@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import auth, Group
 from django.contrib.auth.decorators import login_required
@@ -158,6 +158,21 @@ def login(request):
             return redirect("projects:home")
     
     return render(request, "accounts/login.html")
+
+
+def delete_team_member(request):
+    members = UserSubscription.objects.filter(user_admin=request.user)
+    
+    context = {
+        "members": members,
+    }
+    return render(request, "accounts/delete_team.html", context)
+
+def delete_member(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    user.delete()
+    messages.success(request, "member {user.username.upper} was successfully deleted.")
+    return redirect("accounts:manage_members")
 
 
 def logout(request):

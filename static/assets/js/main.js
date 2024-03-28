@@ -161,3 +161,23 @@ function aosInit() {
   });
 }
 window.addEventListener('load', aosInit);
+
+document.addEventListener("DOMContentLoaded", function(){
+  const allUsers = document.querySelectorAll('.users');
+  console.log("deleting user")
+  if (allUsers){
+    allUsers.forEach(user => {
+      user.addEventListener('click', function() {
+        const pk = user.dataset.pk;
+        const url = `/accounts/delete-member/${pk}`;
+        fetch(url)
+          .then(response => {
+              if(!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+      })
+    })
+  }
+})

@@ -6,7 +6,7 @@ from .models import Profile, Contact, SubscriptionPlan, UserSubscription
 
 
 class UserAdmin(UA):
-    list_display = ("username", "email", "first_name", "last_name",
+    list_display = ("pk", "username", "email", "first_name", "last_name",
                     "is_staff", "is_administrator", "team_member")
     search_fields = ("username", "email")
     ordering = ("username",)
