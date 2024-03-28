@@ -93,15 +93,18 @@
                         {% include "accounts/packages.html"%}
                         {%endif%}
                         
-                        <div class="form-check d-flex justify-content-center mb-5">
+                        <div class="form-check d-flex justify-content-center mb-3">
                           <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
                           <label class="form-check-label" for="form2Example3">
                             I agree all statements in <a href="#!">Terms of service</a>
                           </label>
                         </div>
+                        <div class="mb-5">
+                          <h5>Already have an account? Login <a href="{% url 'accounts:login' %}">here</a>.</h5>
+                        </div>
       
                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                          <button type="submit" class="btn btn-primary btn-lg">next</button>
+                          <button type="submit" class="btn btn-primary btn-lg">Register</button>
                         </div>
                       </form>
       

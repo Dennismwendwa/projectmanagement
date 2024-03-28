@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, BackgroundImage, Task, TaskCompleted
+from .models import Project, BackgroundImage, Task, TaskCompleted, Blog
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -16,7 +16,13 @@ class TaskCompletedAdmin(admin.ModelAdmin):
     list_display = ("task", "completed", "completed_date")
 
 
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ("title", "image", "author", "date")
+    prepopulated_fields = {"slug": ("title",)}
+
+
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(BackgroundImage)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(TaskCompleted, TaskCompletedAdmin)
+admin.site.register(Blog, BlogAdmin)

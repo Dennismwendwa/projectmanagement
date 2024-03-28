@@ -91,3 +91,21 @@ class TaskCompleted(models.Model):
 
     def __str__(self):
         return f"Task: {self.task.name} completed on {self.completed_date}, dep: {self.task.department}"
+    
+
+class Blog(models.Model):
+    title = models.CharField(max_length=100, unique=True)
+    slug=models.SlugField()
+    description = models.TextField()
+    image = models.ImageField(upload_to="blog/img")
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    publish_date = models.DateField()
+    date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "blog"
+        verbose_name_plural = "blogs"
+        ordering = ("-date",)
+
+    def __str__(self):
+        return F"title"

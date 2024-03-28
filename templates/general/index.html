@@ -41,10 +41,12 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-        <li><a href="{% url 'projects:home' %}" class="active">Home</a></li>
+          {%if user.is_authenticated%}
+          <li><a href="{% url 'projects:home' %}" class="active">Home</a></li>
+          {%endif%}
           <li><a href="{% url 'accounts:aboutus' %}">About</a></li>
-          <li><a href="">Services</a></li>
-          <li><a href="">Blog</a></li>
+          {%comment%}<li><a href="">Services</a></li>{%endcomment%}
+          <li><a href="{% url 'projects:blogs' %}">Blog</a></li>
           {% if user.can_create_team%}
           <li><a href="{% url 'accounts:add_team_member' %}">Create Team</a></li>
           {%endif%}
@@ -60,9 +62,10 @@
 
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
-      <a class="btn-getstarted">Hello, {{user.username|title}}</a>
-      <a class="btn-getstarted" href="index.html#about">Get Started</a>
+      {%if user.is_authenticated%}
+      <a class="bg-dark p-2 rounded text-white">Hello, {{user.username|title}}</a>
+      {%endif%}
+      <a class="btn-getstarted" href="{% url 'projects:subscription' %}">Our plans</a>
 
     </div>
     {% block extra_css %}
@@ -165,5 +168,6 @@
   {% block javascript%}{%endblock%}
 
 </body>
+{%block jsscript%}{%endblock%}
 
 </html>

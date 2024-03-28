@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import auth, Group
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
 from .models import User, SubscriptionPlan, UserSubscription
@@ -70,6 +71,8 @@ def register(request):
             return redirect("accounts:register")
     return render(request, "accounts/register.html", {"admin_user": True})
 
+
+@login_required
 def create_team(request):
     if request.method == "POST":
         
@@ -122,6 +125,7 @@ def create_team(request):
                     return redirect("projects:home")
     return render(request, "accounts/register.html")
 
+
 def select_package(request):
     return render(request, "accounts/package_selection.html")
 
@@ -171,6 +175,7 @@ def contact(request):
         else:
             print(form.errors)
     return render(request, "accounts/contact.html")
+
 
 def aboutus(request):
     return render(request, "accounts/aboutus.html")

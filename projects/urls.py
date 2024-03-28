@@ -15,4 +15,6 @@ urlpatterns = [
      path('tasks_completed_histogram/<str:slug>/',
           views.tasks_completed_histrogram, name='tasks_completed_histogram'),
      path("subscription", views.package_subscription, name="subscription"),
+     path("blogs", views.blog_view, name="blogs"),
+     path("blog/<str:slug>", views.blog_details, name="blog_details"),
 ]

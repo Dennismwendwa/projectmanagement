@@ -5,17 +5,20 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Count, F, Q
 from django.db.models.functions import ExtractMonth
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from datetime import datetime
 import matplotlib.pyplot as plt
 import io
 from utils.decorators import has_access
 from accounts.models import UserSubscription
-from .models import BackgroundImage, Project, Task, TaskCompleted
+from .models import BackgroundImage, Project, Task, TaskCompleted, Blog
 from .forms import ProjectForm, TaskForm
 
 import uuid
 
 
+@login_required
 def home(request):
     current_user = UserSubscription.objects.filter(user=request.user)
     my_admins = []
@@ -46,6 +49,7 @@ def home(request):
     return render(request, "projects/home.html", context)
 
 
+@login_required
 @has_access
 def project_details(request, slug, security_key):
     project = get_object_or_404(Project, slug=slug)
@@ -169,6 +173,26 @@ def landing_page(request):
 
     return render(request, "projects/landing_page.html")
 
-def package_subscription(request):
 
-    return render(request, "projects/package.html")
+def package_subscription(request):
+    context= {
+        "STRIPE_PUBLIC_KEY": settings.STRIPE_PUBLIC_KEY,
+    }
+    return render(request, "projects/package.html", context)
+
+
+def blog_view(request):
+    blogs = Blog.objects.filter(publish_date__lte=timezone.now())
+
+    context = {
+        "blogs": blogs,
+    }
+    return render(request, "projects/blog.html", context)
+
+
+def blog_details(request, slug):
+    blog = get_object_or_404(Blog, slug=slug)
+    context = {
+        "blog": blog,
+    }
+    return render(request, "projects/blog_details.html", context)
